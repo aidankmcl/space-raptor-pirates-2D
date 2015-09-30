@@ -1,5 +1,5 @@
 
-# space-raptor-pirates
+# Space Raptor Pirates
 It's going to be an online game where defend your ship from space pirates that are velociraptors.
 
 Forked from https://github.com/huytd/node-online-game-template!
