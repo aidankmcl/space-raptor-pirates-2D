@@ -6,9 +6,9 @@ var socket;
 var screenWidth = window.innerWidth;
 var screenHeight = window.innerHeight;
 
-var c = document.getElementById('cvs');
-var canvas = c.getContext('2d');
-c.width = screenWidth; c.height = screenHeight;
+// var c = document.getElementById('cvs');
+// var canvas = c.getContext('2d');
+// c.width = screenWidth; c.height = screenHeight;
 
 var KEY_ENTER = 13;
 
@@ -18,18 +18,17 @@ function startGame() {
     playerName = playerNameInput.value.replace(/(<([^>]+)>)/ig, '');
     document.getElementById('content').style.display = 'block';
     document.getElementById('startMenuWrapper').style.display = 'none';
-    socket = io.connect({'sync disconnect on unload': true});
+    // socket = io.connect({'sync disconnect on unload': true});
 
     game.setup();
 
-    SetupSocket(socket);
+    // SetupSocket(socket);
     animloop();
 }
 
 // check if nick is valid alphanumeric characters (and underscores)
 function validNick() {
     var regex = /^\w*$/;
-    console.log('Regex Test', regex.exec(playerNameInput.value));
     return regex.exec(playerNameInput.value) !== null;
 }
 
@@ -61,9 +60,9 @@ window.onload = function() {
     });
 };
 
-function SetupSocket(socket) {
-  game.handleNetwork(socket);
-}
+// function SetupSocket(socket) {
+//   game.handleNetwork(socket);
+// }
 
 window.requestAnimFrame = (function(){
     return  window.requestAnimationFrame       ||
@@ -81,12 +80,12 @@ function animloop(){
 
 function gameLoop() {
     game.handleLogic();
-    game.handleGraphics(canvas);
+    game.handleGraphics();
 }
 
 window.addEventListener('resize', function() {
     screenWidth = window.innerWidth;
     screenHeight = window.innerHeight;
-    c.width = screenWidth;
-    c.height = screenHeight;
+    // c.width = screenWidth;
+    // c.height = screenHeight;
 }, true);

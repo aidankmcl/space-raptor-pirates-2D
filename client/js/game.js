@@ -89,6 +89,8 @@ document.onkeyup = function(e) {
   }
 }
 
+var playerImage = document.getElementById('player');
+
 function Game() { };
 
 Game.prototype.setup = function() {
@@ -96,26 +98,26 @@ Game.prototype.setup = function() {
   bounds.right = window.innerWidth/2+240;
   hCenter = (bounds.left + bounds.right)/2;
   vCenter = (bounds.top + bounds.bottom)/2;
-  player.x = hCenter;
-  player.y = vCenter;
-  socket.emit('newPlayer', JSON.stringify(player));
+  playerImage.x = hCenter;
+  playerImage.y = vCenter;
+  // socket.emit('newPlayer', JSON.stringify(player));
 }
 
 Game.prototype.handleNetwork = function(socket) {
 
-  socket.on('updateOthersPos', function(data) {
-    data = JSON.parse(data);
-    players[socket.id] = data
-  });
+  // socket.on('updateOthersPos', function(data) {
+  //   data = JSON.parse(data);
+  //   players[socket.id] = data
+  // });
 
-  socket.on('playerJoined', function(data) {
-    data = JSON.parse(data);
-    players[data.id] = data;
-  });
+  // socket.on('playerJoined', function(data) {
+  //   data = JSON.parse(data);
+  //   players[data.id] = data;
+  // });
 
-  setInterval(function() {
-    socket.emit('updatePos', JSON.stringify(player))
-  }, 15);
+  // setInterval(function() {
+  //   socket.emit('updatePos', JSON.stringify(player))
+  // }, 15);
 }
 
 Game.prototype.handleLogic = function() {
@@ -126,29 +128,32 @@ Game.prototype.handleLogic = function() {
   var safeY = newY > bounds.top && newY < bounds.bottom;
 
   if (safeX && safeY) {
+    console.log('clean', newX, newY);
     player.x = newX;
     player.y = newY;
   }
 }
 
-Game.prototype.handleGraphics = function(gfx) {
-  gfx.clearRect(0, 0, c.width, c.height);
+Game.prototype.handleGraphics = function() {
+  playerImage.offsetTop = player.x
+  playerImage.offsetLeft = player.y
+  // gfx.clearRect(0, 0, c.width, c.height);
   
-  for (var keyID in players) {
-    gfx.beginPath();
-    gfx.arc(players[keyID].x, players[keyID].y, 10, 0, 2 * Math.PI, false);
-    gfx.fillStyle = 'cornflowerblue';
-    gfx.fill();
-    gfx.lineWidth = 2;
-    gfx.strokeStyle = 'blue';
-    gfx.stroke();
-  }
+  // for (var keyID in players) {
+  //   gfx.beginPath();
+  //   gfx.arc(players[keyID].x, players[keyID].y, 10, 0, 2 * Math.PI, false);
+  //   gfx.fillStyle = 'cornflowerblue';
+  //   gfx.fill();
+  //   gfx.lineWidth = 2;
+  //   gfx.strokeStyle = 'blue';
+  //   gfx.stroke();
+  // }
 
-  gfx.beginPath();
-  gfx.arc(player.x, player.y, 10, 0, 2 * Math.PI, false);
-  gfx.fillStyle = 'cornflowerblue';
-  gfx.fill();
-  gfx.lineWidth = 2;
-  gfx.strokeStyle = 'blue';
-  gfx.stroke();
+  // gfx.beginPath();
+  // gfx.arc(player.x, player.y, 10, 0, 2 * Math.PI, false);
+  // gfx.fillStyle = 'cornflowerblue';
+  // gfx.fill();
+  // gfx.lineWidth = 2;
+  // gfx.strokeStyle = 'blue';
+  // gfx.stroke();
 }
