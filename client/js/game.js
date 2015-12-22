@@ -43,7 +43,9 @@ function Player() {
   }
 }
 
-players = {}
+var players = {}
+// var enemies = []
+
 var player = new Player();
 
 function checkBounds(x, y, boundaryCircle) {
@@ -89,7 +91,7 @@ document.onkeyup = function(e) {
   }
 }
 
-var playerImage = document.getElementById('player');
+var $playerImage = $('#player');
 
 function Game() { };
 
@@ -98,8 +100,8 @@ Game.prototype.setup = function() {
   bounds.right = window.innerWidth/2+240;
   hCenter = (bounds.left + bounds.right)/2;
   vCenter = (bounds.top + bounds.bottom)/2;
-  playerImage.x = hCenter;
-  playerImage.y = vCenter;
+  player.x = hCenter;
+  player.y = vCenter;
   // socket.emit('newPlayer', JSON.stringify(player));
 }
 
@@ -128,15 +130,18 @@ Game.prototype.handleLogic = function() {
   var safeY = newY > bounds.top && newY < bounds.bottom;
 
   if (safeX && safeY) {
-    console.log('clean', newX, newY);
     player.x = newX;
     player.y = newY;
   }
+
+  var enemies = $('.enemy');
+  moveEnemies(enemies, bounds);
 }
 
 Game.prototype.handleGraphics = function() {
-  playerImage.offsetTop = player.x
-  playerImage.offsetLeft = player.y
+  $playerImage.css('top', player.y.toString()+'px');
+  $playerImage.css('left', player.x.toString()+'px');
+
   // gfx.clearRect(0, 0, c.width, c.height);
   
   // for (var keyID in players) {
