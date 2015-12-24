@@ -1,9 +1,9 @@
 
 var bounds = {
-  left: 0,
-  top: 60,
-  right: 0,
-  bottom: 440,
+  left: 20,
+  top: 15,
+  right: 480,
+  bottom: 360,
 }
 
 var hCenter,
@@ -28,8 +28,8 @@ var SPEED = 5;
 function Player() {
   this.id = "";
   this.on = false;
-  this.x = 0;
-  this.y = 0;
+  this.x = 250;
+  this.y = 200;
   this.xSpeed = 0;
   this.ySpeed = 0;
   this.room = 1,
@@ -96,12 +96,8 @@ var $playerImage = $('#player');
 function Game() { };
 
 Game.prototype.setup = function() {
-  bounds.left = window.innerWidth/2-240;
-  bounds.right = window.innerWidth/2+240;
-  hCenter = (bounds.left + bounds.right)/2;
-  vCenter = (bounds.top + bounds.bottom)/2;
-  player.x = hCenter;
-  player.y = vCenter;
+  // bounds.left = window.innerWidth/2-240;
+  // bounds.right = window.innerWidth/2+240;
   // socket.emit('newPlayer', JSON.stringify(player));
 }
 

@@ -23,25 +23,47 @@ canvas {
 }
 
 #field {
-	witdh: 100%;
-	margin: 0;
-	padding: 0;
+    position: absolute;
+    width: 500px;
+    height: 400px;
+    top: 50px;
+    left: 50%;
+    margin-left: -250px;
+}
+
+.map {
+	width: 100%;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-o-user-select: none;
+	user-select: none;
+	-webkit-user-drag: none;
+	-khtml-user-drag: none;
+	-moz-user-drag: none;
+	-o-user-drag: none;
+	user-drag: none;
+}
+
+.map[src="images/Sector0.png"] {
+	width:400px;
+	height:400px;
 }
 
 #player {
 	position: absolute;
-	top: 50%;
-	left: 50%;
+	top: 200px;
+	left: 250px;
 	width: 100px;
-	margin: -50px 0px 0px -50px;
+	margin: -40px 0 0 -40px;
 }
 
 .enemy {
 	position: absolute;
-	top: 40%;
-	left: 40%;
+	top: 100px;
+	left: 100px;
 	width: 100px;
-	margin: -50px 0px 0px -50px;
+	margin: -20px 0px 0px -20px;
 }
 
 #startMenuWrapper {
@@ -139,29 +161,6 @@ a {
 
 #content {
 	height:100vh;
-}
-
-.map {
-	width:500px;
-	height:400px;
-	display: block;
-	padding: 50px;
-	margin:0px auto;
-	-webkit-user-select: none;
-	-khtml-user-select: none;
-	-moz-user-select: none;
-	-o-user-select: none;
-	user-select: none;
-	-webkit-user-drag: none;
-	-khtml-user-drag: none;
-	-moz-user-drag: none;
-	-o-user-drag: none;
-	user-drag: none;
-}
-
-.map[src="images/Sector0.png"] {
-	width:400px;
-	height:400px;
 }
 
 #cvs {
