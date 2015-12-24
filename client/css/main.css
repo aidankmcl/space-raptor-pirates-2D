@@ -13,7 +13,7 @@ html, body {
 		rgba(0, 0, 0, 0.4), 
 		rgba(0, 0, 0, 1)
 	  ),
-	  url('images/Sector0.png');
+	  url('/images/Sector0.png');
 	background-size: cover;
 }
 
@@ -60,10 +60,11 @@ canvas {
 
 .enemy {
 	position: absolute;
-	top: 100px;
-	left: 100px;
-	width: 100px;
-	margin: -20px 0px 0px -20px;
+	width: 50px;
+	height: 50px;
+	border-radius: 100%;
+	background: cornflowerblue;
+	margin: -25px 0px 0px -25px;
 }
 
 #startMenuWrapper {
