@@ -1,15 +1,23 @@
-var ENEMY_SPEED = 200.0  // pixels per second
+var ENEMY_SPEED = 200.0;  // pixels per second
+var DAMAGE = 5; // per second in range
 
-var calculateNextEnemyPosition = function ($player, $enemy, bounds, timeDelta) {
+var calculateDistance = function (player, enemy) {
+	return Math.sqrt(Math.pow(player.x-enemy.x, 2) + Math.pow(player.y-enemy.y, 2))
+}
+
+var calculateNextEnemyPosition = function (target, enemy, bounds, timeDelta) {
+	var $target = $('#' + target.id);
+	var $enemy = $('#' + enemy.id);
+
 	var currentX = parseInt($enemy.css('left'), 10);
 	var currentY = parseInt($enemy.css('top'), 10);
 
-	var playerX = parseInt($player.css('left'), 10);
-	var playerY = parseInt($player.css('top'), 10);
+	var targetX = parseInt($target.css('left'), 10);
+	var targetY = parseInt($target.css('top'), 10);
 
 	// want to normalize direction and make speed 20 px/s
-	var dX = (playerX - currentX);
-	var dY = (playerY - currentY);
+	var dX = (targetX - currentX);
+	var dY = (targetY - currentY);
 
 	var distToHuman = Math.sqrt((dX * dX) + (dY * dY));
 
@@ -26,11 +34,29 @@ var calculateNextEnemyPosition = function ($player, $enemy, bounds, timeDelta) {
 }
 
 var moveEnemies = function (enemies, bounds, timeDelta) {
-	var $player = $('#player');
+	for (var enemyID in enemies) {
+		var e = enemies[enemyID];
+		var $enemy = $('#'+e.id);
 
-	for (var id in enemies) {
-		var $enemy = $('#'+id);
-		var nextPos = calculateNextEnemyPosition($player, $enemy, bounds, timeDelta);
+		var lowestDistance = 10000;
+		var target = false;
+
+		for (var playerID in players) {
+			var p = players[playerID];
+			if (p.room == e.room) {
+				var distance = calculateDistance(p, e);
+				if (distance < lowestDistance) {
+					lowestDistance = distance;
+					target = p
+				}
+			}
+		}
+
+		// if (target === false) {
+		// 	target = roomConsole[e.room];
+		// }
+
+		var nextPos = calculateNextEnemyPosition(target, e, bounds, timeDelta);
 
 		$enemy.css('top', nextPos.y.toString()+"px");
 		$enemy.css('left', nextPos.x.toString()+"px");
@@ -55,6 +81,7 @@ var Enemy = function(type, room) {
 
 	this.type = type;
 	this.room = room;
+	this.damage = DAMAGE;
 
 	this.init();
 };
@@ -71,6 +98,10 @@ Enemy.prototype.hurt = function (points) {
 	if (this.health <= 0) {
 		this.die();
 	}
+}
+
+Enemy.prototype.attack = function (player) {
+	player.hurt(this.damage);
 }
 
 Enemy.prototype.die = function () {
