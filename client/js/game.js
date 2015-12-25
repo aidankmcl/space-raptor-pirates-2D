@@ -6,10 +6,10 @@ var enemies = {}
 function Game() { };
 
 Game.prototype.setup = function() {
-  setInterval(function() {
+  // setInterval(function() {
     var newRaptor = new Enemy('raptor', 1);
     enemies[newRaptor.id] = newRaptor;
-  }, 3000);
+  // }, 3000);
 
   playerOne = new Player();
   players[playerOne.id] = playerOne;
@@ -26,6 +26,9 @@ Game.prototype.handleNetwork = function(socket) {}
 var lastTime = Date.now();
 
 Game.prototype.handleLogic = function() {
+  if (players[playerOne.id] == undefined) {
+    return false;
+  }
   var newX = players[playerOne.id].x + players[playerOne.id].xSpeed;
   var newY = players[playerOne.id].y + players[playerOne.id].ySpeed;
 

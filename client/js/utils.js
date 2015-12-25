@@ -32,6 +32,9 @@ function checkBounds(x, y, boundaryCircle) {
 }
 
 var sendKey = function (activeK) {
+  if (players[playerOne.id] == undefined) {
+    return false;
+  }
   players[playerOne.id].xSpeed = 0;
   players[playerOne.id].ySpeed = 0;
   
