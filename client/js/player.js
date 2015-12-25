@@ -13,14 +13,18 @@ function Player() {
     var playerXY = {x: this.x, y: this.y},
       mouseXY = {x: mouseX, y: mouseY};
 
-    $('.enemy').each(function(index, obj) {
+    for (var id in enemies) {
+      
       var enemyXY = {
-        x: parseInt($(obj).css('left'), 10),
-        y: parseInt($(obj).css('top'), 10)
+        x: parseInt($('#'+id).css('left'), 10),
+        y: parseInt($('#'+id).css('top'), 10)
       }
 
       var hit = detectCollision(playerXY, mouseXY, enemyXY, 20);
-    })
+      if (hit) {
+        enemies[id].hurt(20);
+      }
+    }
   },
   
   this.options = {

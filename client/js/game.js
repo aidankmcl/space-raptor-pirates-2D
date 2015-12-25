@@ -1,26 +1,16 @@
 
 var players = {}
+var enemies = {}
 
 function Game() { };
 
-Game.prototype.setup = function() {}
-
-Game.prototype.handleNetwork = function(socket) {
-
-  // socket.on('updateOthersPos', function(data) {
-  //   data = JSON.parse(data);
-  //   players[socket.id] = data
-  // });
-
-  // socket.on('playerJoined', function(data) {
-  //   data = JSON.parse(data);
-  //   players[data.id] = data;
-  // });
-
-  // setInterval(function() {
-  //   socket.emit('updatePos', JSON.stringify(player))
-  // }, 15);
+Game.prototype.setup = function() {
+  setInterval(function() {
+    var newRaptor = new Enemy('raptor', 1);
+    enemies[newRaptor.id] = newRaptor;
+  }, 3000);
 }
+Game.prototype.handleNetwork = function(socket) {}
 
 var lastTime = Date.now();
 
@@ -35,8 +25,6 @@ Game.prototype.handleLogic = function() {
     player.x = newX;
     player.y = newY;
   }
-
-  var enemies = $('.enemy');
   
   var currentTime = Date.now();
   var timeDelta = (currentTime - lastTime) / 1000.0;
@@ -47,8 +35,12 @@ Game.prototype.handleLogic = function() {
 }
 
 var $playerImage = $('#player');
+var lastPos = {x: 250, y: 200};
 
 Game.prototype.handleGraphics = function() {
-  $playerImage.css('top', player.y.toString()+'px');
-  $playerImage.css('left', player.x.toString()+'px');
+  if (lastPos.x != player.x || lastPos.y != player.y) {
+    $playerImage.css('top', player.y.toString()+'px');
+    $playerImage.css('left', player.x.toString()+'px');
+  }
+  lastPos = {x: player.x, y: player.y}
 }
