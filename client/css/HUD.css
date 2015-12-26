@@ -1,0 +1,53 @@
+body, html {
+	cursor: url('/images/circle-crosshair.png'), auto !important;
+}
+
+#overlay {
+    position: absolute;
+    top: 3px;
+    right: 2px;
+    bottom: 25px;
+    left: 1px;
+    background-color: white;
+    opacity: 0;
+    z-index: 99999;
+    border-radius: 5px;
+}
+
+.overlay-animation {
+	-moz-animation: excite 0.25s;
+	-webkit-animation: excite 0.25s;
+	animation: excite 0.25s;
+}
+
+@-webkit-keyframes excite {
+    from {opacity: 0;}
+    50% {opacity: 0.4;}
+    to {opacity: 0;}
+}
+
+/* Standard syntax */ 
+@keyframes excite {
+    from {opacity: 0;}
+    50% {opacity: 0.4;}
+    to {opacity: 0;}
+}
+
+.health {
+	left: 1%;
+    position: absolute;
+    width: 98%;
+    height: 12px;
+    background: white;
+    border-radius: 5px;
+}
+
+#playerHealth {
+    background: #73E073;
+    height: 12px;
+    border-radius: 4px;
+}
+
+#controlPanel {
+	width: 100%;
+}

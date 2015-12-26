@@ -1,29 +1,43 @@
 
+var playerOne;
 var players = {}
 var enemies = {}
 
 function Game() { };
 
 Game.prototype.setup = function() {
-  setInterval(function() {
+  // setInterval(function() {
     var newRaptor = new Enemy('raptor', 1);
     enemies[newRaptor.id] = newRaptor;
-  }, 3000);
+  // }, 3000);
+
+  playerOne = new Player();
+  players[playerOne.id] = playerOne;
+
+  $('#field').click(function(e) {
+    var x = e.pageX - $(this).offset().left;
+    var y = e.pageY - $(this).offset().top;
+    players[playerOne.id].shoot(x, y)
+  });
 }
+
 Game.prototype.handleNetwork = function(socket) {}
 
 var lastTime = Date.now();
 
 Game.prototype.handleLogic = function() {
-  var newX = player.x + player.xSpeed;
-  var newY = player.y + player.ySpeed;
+  if (players[playerOne.id] == undefined) {
+    return false;
+  }
+  var newX = players[playerOne.id].x + players[playerOne.id].xSpeed;
+  var newY = players[playerOne.id].y + players[playerOne.id].ySpeed;
 
   var safeX = newX > bounds.left && newX < bounds.right;
   var safeY = newY > bounds.top && newY < bounds.bottom;
 
   if (safeX && safeY) {
-    player.x = newX;
-    player.y = newY;
+    players[playerOne.id].x = newX;
+    players[playerOne.id].y = newY;
   }
   
   var currentTime = Date.now();
@@ -34,13 +48,12 @@ Game.prototype.handleLogic = function() {
   lastTime = currentTime;
 }
 
-var $playerImage = $('#player');
-var lastPos = {x: 250, y: 200};
-
 Game.prototype.handleGraphics = function() {
-  if (lastPos.x != player.x || lastPos.y != player.y) {
-    $playerImage.css('top', player.y.toString()+'px');
-    $playerImage.css('left', player.x.toString()+'px');
+  for (var id in players) {
+    if (players[id].lastPos.x != players[id].x || players[id].lastPos.y != players[id].y) {
+      $('#'+id).css('top', players[id].y.toString()+'px');
+      $('#'+id).css('left', players[id].x.toString()+'px');
+    }
+    players[id].lastPos = {x: players[id].x, y: players[id].y}
   }
-  lastPos = {x: player.x, y: player.y}
 }

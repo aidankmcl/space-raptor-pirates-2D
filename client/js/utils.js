@@ -32,23 +32,26 @@ function checkBounds(x, y, boundaryCircle) {
 }
 
 var sendKey = function (activeK) {
-  player.xSpeed = 0;
-  player.ySpeed = 0;
+  if (players[playerOne.id] == undefined) {
+    return false;
+  }
+  players[playerOne.id].xSpeed = 0;
+  players[playerOne.id].ySpeed = 0;
   
   if (activeK[KEY_W]) {
-      player.ySpeed = -player.speed;
+      players[playerOne.id].ySpeed = -players[playerOne.id].speed;
   }
   if (activeK[KEY_A]) {
-      player.xSpeed = -player.speed;
+      players[playerOne.id].xSpeed = -players[playerOne.id].speed;
   }
   if (activeK[KEY_S]) {
-      player.ySpeed = player.speed;
+      players[playerOne.id].ySpeed = players[playerOne.id].speed;
   }
   if (activeK[KEY_D]) {
-      player.xSpeed = player.speed;
+      players[playerOne.id].xSpeed = players[playerOne.id].speed;
   }
   if (activeK[SPACE]) {
-      activate(player)
+      activate(players[playerOne.id])
   }
 }
 
