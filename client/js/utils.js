@@ -24,9 +24,9 @@ var activeKeys = {
 }
 
 function checkBounds(x, y, boundaryCircle) {
-  var circleX = boundaryCircle[0];
-  var circleY = boundaryCircle[1];
-  var radius = boundaryCircle[2];
+  var circleX = boundaryCircle.x;
+  var circleY = boundaryCircle.y;
+  var radius = boundaryCircle.radius;
 
   return Math.sqrt(Math.pow(x - circleX, 2) + Math.pow(y - circleY, 2)) < radius;
 }
@@ -51,7 +51,7 @@ var sendKey = function (activeK) {
       players[playerOne.id].xSpeed = players[playerOne.id].speed;
   }
   if (activeK[SPACE]) {
-      activate(players[playerOne.id])
+      players[playerOne.id].activate()
   }
 }
 

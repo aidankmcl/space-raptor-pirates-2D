@@ -42,6 +42,17 @@ body, html {
     border-radius: 5px;
 }
 
+.health.top {
+    top: -16px;
+    background-color: gray;
+}
+
+#sectorHealth {
+    background-color: #eee;
+    height: 12px;
+    border-radius: 4px;
+}
+
 #playerHealth {
     background: #73E073;
     height: 12px;

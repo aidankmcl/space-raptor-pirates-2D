@@ -59,6 +59,43 @@ Player.prototype.shoot = function(mouseX, mouseY) {
   }, 250);
 }
 
+Player.prototype.move = function (direction) {
+  switch (direction) {
+    case 'left':
+      this.room = ((this.room - 1) % 5 == 0)? 4 : this.room - 1;
+      this.x = 475;
+      break;
+    case 'right':
+      this.room = ((this.room + 1) % 5 == 0)? 1 : this.room + 1;
+      this.x = 25;
+      break;
+  }
+
+  $('#map').attr('src', 'images/Sector'+this.room+'.png');
+  $('#sectorHealth').css('width', roomConsoles.room[this.room].health+'%');
+
+  for (var enemyId in enemies) {
+    if (enemies[enemyId].room === this.room) {
+      $('#'+enemyId).show();
+    } else {
+      $('#'+enemyId).hide();
+    }
+  }
+}
+
+Player.prototype.activate = function () {
+  var health = roomConsoles.room[this.room].health;
+
+  if (checkBounds(this.x, this.y, roomConsoles) && health < 100) {
+    roomConsoles.room[this.room].health += 2;
+    $('#sectorHealth').width(roomConsoles.room[this.room].health.toString()+'%');
+  } else if (checkBounds(this.x, this.y, {x: 25, y: 200, radius: 50})) {
+    this.move('left')
+  } else if (checkBounds(this.x, this.y, {x: 475, y: 200, radius: 50})) {
+    this.move('right')
+  }
+}
+
 Player.prototype.hurt = function (points) {
   this.health -= points;
 

@@ -2,17 +2,45 @@
 var playerOne;
 var players = {}
 var enemies = {}
+var roomConsoles = {
+  x: 235,
+  y: 0,
+  radius: 100,
+  room: [
+    'room zero coming soon :)',
+    {
+      health: 100,
+      sector: 'air'
+    },
+    {
+      health: 100,
+      sector: 'speed'
+    },
+    {
+      health: 100,
+      sector: 'defense'
+    },
+    {
+      health: 100,
+      sector: 'power'
+    }
+  ]
+}
 
 function Game() { };
 
 Game.prototype.setup = function() {
-  // setInterval(function() {
-    var newRaptor = new Enemy('raptor', 1);
-    enemies[newRaptor.id] = newRaptor;
-  // }, 3000);
 
   playerOne = new Player();
   players[playerOne.id] = playerOne;
+
+  setInterval(function() {
+    var newRaptor = new Enemy('raptor', Math.floor(Math.random()*4)+1);
+    enemies[newRaptor.id] = newRaptor;
+    if (newRaptor.room != playerOne.room) {
+      $('#'+newRaptor.id).hide();
+    }
+  }, 4000);
 
   $('#field').click(function(e) {
     var x = e.pageX - $(this).offset().left;
@@ -43,7 +71,9 @@ Game.prototype.handleLogic = function() {
   var currentTime = Date.now();
   var timeDelta = (currentTime - lastTime) / 1000.0;
 
-  moveEnemies(enemies, bounds, timeDelta);
+  for (var enemyID in enemies) {
+    enemies[enemyID].move(bounds, timeDelta);
+  }
   
   lastTime = currentTime;
 }
