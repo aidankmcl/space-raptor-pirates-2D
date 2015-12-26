@@ -7,15 +7,6 @@ var calculateDistance = function (player, enemy) {
 }
 
 var calculateNextEnemyPosition = function (target, enemy, bounds, timeDelta) {
-	// var $target = $('#' + target.id);
-	// var $enemy = $('#' + enemy.id);
-
-	// var currentX = parseInt($enemy.css('left'), 10);
-	// var currentY = parseInt($enemy.css('top'), 10);
-
-	// var targetX = parseInt($target.css('left'), 10);
-	// var targetY = parseInt($target.css('top'), 10);
-
 	// want to normalize direction and make speed 20 px/s
 	var dX = (target.x - enemy.x);
 	var dY = (target.y - enemy.y);
@@ -34,42 +25,6 @@ var calculateNextEnemyPosition = function (target, enemy, bounds, timeDelta) {
 	return {x: newX, y: newY}
 }
 
-var moveEnemies = function (enemies, bounds, timeDelta) {
-	for (var enemyID in enemies) {
-		var e = enemies[enemyID];
-		var $enemy = $('#'+e.id);
-
-		var lowestDistance = 10000;
-		var target = false;
-
-		for (var playerID in players) {
-			var p = players[playerID];
-			if (p.room == e.room) {
-				var distance = calculateDistance(p, e);
-				if (distance < lowestDistance) {
-					lowestDistance = distance;
-					target = p
-				}
-
-				if (distance < 30) {
-					players[playerID].hurt(1);
-				}
-			}
-		}
-
-		// if (target === false) {
-		// 	target = roomConsole[e.room];
-		// }
-
-		var nextPos = calculateNextEnemyPosition(target, e, bounds, timeDelta);
-
-		enemies[enemyID].x = nextPos.x;
-		enemies[enemyID].y = nextPos.y;
-
-		$enemy.css('top', nextPos.y.toString()+"px");
-		$enemy.css('left', nextPos.x.toString()+"px");
-	};
-}
 
 var Enemy = function(type, room) {
 	this.id = Math.random().toString(36).slice(-8);
@@ -93,6 +48,58 @@ var Enemy = function(type, room) {
 
 	this.init();
 };
+
+Enemy.prototype.move = function (bounds, timeDelta) {
+	var $enemy = $('#'+this.id);
+
+	var lowestDistance = 10000;
+	var target = false;
+
+	for (var playerID in players) {
+		var p = players[playerID];
+		if (p.room == this.room) {
+			var distance = calculateDistance(p, this);
+			if (distance < lowestDistance) {
+				lowestDistance = distance;
+				target = p
+			}
+
+			if (distance < 30) {
+				p.hurt(1);
+			}
+		}
+	}
+
+	if (target === false) {
+		target = roomConsoles;
+		if (calculateDistance(target, this) < 30 && target.room[this.room].health > 0 ) {
+			target.room[this.room].health -= 1;
+			this.health += 1;
+		}
+
+		if (this.room == playerOne.room) {
+			$('#sectorHealth').width(roomConsoles.room[this.room].health.toString()+'%');
+		}
+
+		if (target.room[this.room].health == 0) {
+			var broken = 0;
+			for (var i = 0; i < roomConsoles.room.length; i++) {
+				broken = (roomConsoles.room[i].health == 0)? broken + 1: broken;
+			}
+			if (broken == 3) {
+				requestAnimFrame = function () {};
+			}
+		}
+	}
+
+	var nextPos = calculateNextEnemyPosition(target, this, bounds, timeDelta);
+
+	this.x = nextPos.x;
+	this.y = nextPos.y;
+
+	$enemy.css('top', nextPos.y.toString()+"px");
+	$enemy.css('left', nextPos.x.toString()+"px");
+}
 
 Enemy.prototype.init = function () {
 	$('#field').append('<img src="'+this.src+'" class="enemy" id="'+this.id+'" />');
