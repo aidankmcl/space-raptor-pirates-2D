@@ -1,5 +1,5 @@
 body, html {
-	cursor: url('/images/circle-crosshair.png'), auto !important;
+	cursor: url('/images/circle-crosshair.png') 12 12, auto !important;
 }
 
 #overlay {
